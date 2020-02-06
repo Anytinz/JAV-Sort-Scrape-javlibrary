@@ -1,4 +1,8 @@
-﻿function Get-R18ThumbUrl {
+﻿$cookie = New-Object System.Net.Cookie("lg", "zh", "/", ".r18.com")
+$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+$session.Cookies.Add($cookie);
+
+function Get-R18ThumbUrl {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -11,8 +15,8 @@
 
     for ($Counter = $StartPage; $Counter -le $EndPage; $Counter++) {
         $PageNumber = $Counter.ToString()
-        $Page = Invoke-WebRequest -Uri "https://www.r18.com/videos/vod/movies/actress/letter=a/sort=popular/page=$PageNumber/"
-        $Results = $Page.Images | Select-Object src, alt | Where-Object {
+        $Page = Invoke-WebRequest -WebSession $session -Uri "https://www.r18.com/videos/vod/movies/actress/letter=a/sort=popular/page=$PageNumber/"
+        $Results = $Page.Images | Select-Object alt, src | Where-Object {
             $_.src -like '*/actjpgs/*' -and `
                 $_.alt -notlike $null
         }
@@ -47,7 +51,6 @@ function Set-NameOrder {
         foreach ($Name in $Names) {
             $Temp = $Name.split(' ')
             if ($Temp[1].length -ne 0) {
-                $First, $Last = $Name.split(' ')
                 $NewName += "$Last $First"
             }
             else {
