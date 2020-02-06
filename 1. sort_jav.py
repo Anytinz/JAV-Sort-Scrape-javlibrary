@@ -94,7 +94,7 @@ def get_javlibrary_url(vid_id):
     returns None if a URL could not be found"""
     vid_id = check_vid_id_has_dash(vid_id.upper())
     try:
-        search_url = "http://www.javlibrary.com/en/vl_searchbyid.php?keyword=" + vid_id
+        search_url = "http://www.javlibrary.com/ja/vl_searchbyid.php?keyword=" + vid_id
         html = get_url_response(search_url, vid_id)
 
         # we didn't get a valid response
@@ -129,7 +129,7 @@ def get_correct_url(html, vid_id):
     """get the url that's the exact video we want from a link with multiple results"""
     try:
         url_portion = html.split('" title="' + vid_id + ' ')[0].split('><a href=".')[1]
-        return "http://www.javlibrary.com/en" + url_portion
+        return "http://www.javlibrary.com/ja" + url_portion
     except:
         return None
 
