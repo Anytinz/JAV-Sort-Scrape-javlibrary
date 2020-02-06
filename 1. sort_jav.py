@@ -556,7 +556,8 @@ if __name__ == '__main__':
         print("Sorting your JAV, please wait...")
         settings = read_file('settings_sort_jav.ini')
         sort_jav(settings)
-        input("Press Enter to finish.")
+        input("Done.")
+        exit()
     except Exception as e:
         print(e)
         print("Panic! Go find help.")
